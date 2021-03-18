@@ -132,7 +132,7 @@ char *assembleHeaderField(char *key, char *value) {
 
 void postData(CURL *handle, char *bodyParameters) {
     curl_easy_setopt(handle, CURLOPT_POSTFIELDS, bodyParameters);
-    curl_easy_setopt(handle, CURLOPT_POSTFIELDSIZE_LARGE,
+    curl_easy_setopt(handle, CURLOPT_POSTFIELDSIZE,
                      strlen(bodyParameters));
 }
 
