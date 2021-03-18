@@ -23,6 +23,9 @@ ttl_params_t *ttl_params_create(
 
 
 void ttl_params_free(ttl_params_t *ttl_params) {
+    if(NULL == ttl_params){
+        return ;
+    }
     listEntry_t *listEntry;
     free(ttl_params);
 }

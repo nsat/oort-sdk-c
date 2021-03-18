@@ -25,6 +25,9 @@ send_file_request_t *send_file_request_create(
 
 
 void send_file_request_free(send_file_request_t *send_file_request) {
+    if(NULL == send_file_request){
+        return ;
+    }
     listEntry_t *listEntry;
     free(send_file_request->destination);
     free(send_file_request->filepath);

@@ -21,6 +21,9 @@ error_response_t *error_response_create(
 
 
 void error_response_free(error_response_t *error_response) {
+    if(NULL == error_response){
+        return ;
+    }
     listEntry_t *listEntry;
     free(error_response->message);
     free(error_response);

@@ -21,6 +21,9 @@ send_options_t *send_options_create(
 
 
 void send_options_free(send_options_t *send_options) {
+    if(NULL == send_options){
+        return ;
+    }
     listEntry_t *listEntry;
     ttl_params_free(send_options->ttl_params);
     free(send_options);

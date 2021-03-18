@@ -31,6 +31,9 @@ file_info_t *file_info_create(
 
 
 void file_info_free(file_info_t *file_info) {
+    if(NULL == file_info){
+        return ;
+    }
     listEntry_t *listEntry;
     free(file_info->id);
     free(file_info->path);

@@ -19,6 +19,9 @@ send_file_response_t *send_file_response_create(
 
 
 void send_file_response_free(send_file_response_t *send_file_response) {
+    if(NULL == send_file_response){
+        return ;
+    }
     listEntry_t *listEntry;
     free(send_file_response->uuid);
     free(send_file_response);

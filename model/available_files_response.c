@@ -21,6 +21,9 @@ available_files_response_t *available_files_response_create(
 
 
 void available_files_response_free(available_files_response_t *available_files_response) {
+    if(NULL == available_files_response){
+        return ;
+    }
     listEntry_t *listEntry;
     list_ForEach(listEntry, available_files_response->files) {
         file_info_free(listEntry->data);

@@ -21,6 +21,9 @@ retrieve_file_request_t *retrieve_file_request_create(
 
 
 void retrieve_file_request_free(retrieve_file_request_t *retrieve_file_request) {
+    if(NULL == retrieve_file_request){
+        return ;
+    }
     listEntry_t *listEntry;
     free(retrieve_file_request->id);
     free(retrieve_file_request->save_path);
