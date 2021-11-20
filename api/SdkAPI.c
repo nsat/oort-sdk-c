@@ -11,6 +11,192 @@
     snprintf(dst, 256, "%ld", (long int)(src));\
 }while(0)
 
+// request adcs operation
+//
+adcs_command_response_t*
+SdkAPI_commandAdcs(apiClient_t *apiClient ,adcs_command_request_t * adcs_command_request)
+{
+    list_t    *localVarQueryParameters = NULL;
+    list_t    *localVarHeaderParameters = NULL;
+    list_t    *localVarFormParameters = NULL;
+    list_t *localVarHeaderType = list_create();
+    list_t *localVarContentType = list_create();
+    char      *localVarBodyParameters = NULL;
+
+    // create the path
+    long sizeOfPath = strlen("/adcs")+1;
+    char *localVarPath = malloc(sizeOfPath);
+    snprintf(localVarPath, sizeOfPath, "/adcs");
+
+
+
+
+    // Body Param
+    cJSON *localVarSingleItemJSON_adcs_command_request;
+    if (adcs_command_request != NULL)
+    {
+        //string
+        localVarSingleItemJSON_adcs_command_request = adcs_command_request_convertToJSON(adcs_command_request);
+        localVarBodyParameters = cJSON_Print(localVarSingleItemJSON_adcs_command_request);
+    }
+    list_addElement(localVarHeaderType,"application/json"); //produces
+    list_addElement(localVarContentType,"application/json"); //consumes
+    apiClient_invoke(apiClient,
+                    localVarPath,
+                    localVarQueryParameters,
+                    localVarHeaderParameters,
+                    localVarFormParameters,
+                    localVarHeaderType,
+                    localVarContentType,
+                    localVarBodyParameters,
+                    "POST");
+
+    if (apiClient->response_code == 200) {
+        printf("%s\n","OK");
+    }
+    if (apiClient->response_code == 400) {
+        printf("%s\n","ERROR");
+    }
+    //nonprimitive not container
+    cJSON *SdkAPIlocalVarJSON = cJSON_Parse(apiClient->dataReceived);
+    adcs_command_response_t *elementToReturn = adcs_command_response_parseFromJSON(SdkAPIlocalVarJSON);
+    cJSON_Delete(SdkAPIlocalVarJSON);
+    if(elementToReturn == NULL) {
+        // return 0;
+    }
+
+    //return type
+    if (apiClient->dataReceived) {
+        free(apiClient->dataReceived);
+    }
+    
+    
+    
+    list_free(localVarHeaderType);
+    list_free(localVarContentType);
+    free(localVarPath);
+    cJSON_Delete(localVarSingleItemJSON_adcs_command_request);
+    free(localVarBodyParameters);
+    return elementToReturn;
+end:
+    return NULL;
+
+}
+
+// query adcs status
+//
+adcs_response_t*
+SdkAPI_getAdcs(apiClient_t *apiClient)
+{
+    list_t    *localVarQueryParameters = NULL;
+    list_t    *localVarHeaderParameters = NULL;
+    list_t    *localVarFormParameters = NULL;
+    list_t *localVarHeaderType = list_create();
+    list_t *localVarContentType = NULL;
+    char      *localVarBodyParameters = NULL;
+
+    // create the path
+    long sizeOfPath = strlen("/adcs")+1;
+    char *localVarPath = malloc(sizeOfPath);
+    snprintf(localVarPath, sizeOfPath, "/adcs");
+
+
+
+    list_addElement(localVarHeaderType,"application/json"); //produces
+    apiClient_invoke(apiClient,
+                    localVarPath,
+                    localVarQueryParameters,
+                    localVarHeaderParameters,
+                    localVarFormParameters,
+                    localVarHeaderType,
+                    localVarContentType,
+                    localVarBodyParameters,
+                    "GET");
+
+    if (apiClient->response_code == 200) {
+        printf("%s\n","OK");
+    }
+    //nonprimitive not container
+    cJSON *SdkAPIlocalVarJSON = cJSON_Parse(apiClient->dataReceived);
+    adcs_response_t *elementToReturn = adcs_response_parseFromJSON(SdkAPIlocalVarJSON);
+    cJSON_Delete(SdkAPIlocalVarJSON);
+    if(elementToReturn == NULL) {
+        // return 0;
+    }
+
+    //return type
+    if (apiClient->dataReceived) {
+        free(apiClient->dataReceived);
+    }
+    
+    
+    
+    list_free(localVarHeaderType);
+    
+    free(localVarPath);
+    return elementToReturn;
+end:
+    return NULL;
+
+}
+
+// get tfrs values
+//
+tfrs_response_t*
+SdkAPI_getTfrs(apiClient_t *apiClient)
+{
+    list_t    *localVarQueryParameters = NULL;
+    list_t    *localVarHeaderParameters = NULL;
+    list_t    *localVarFormParameters = NULL;
+    list_t *localVarHeaderType = list_create();
+    list_t *localVarContentType = NULL;
+    char      *localVarBodyParameters = NULL;
+
+    // create the path
+    long sizeOfPath = strlen("/tfrs")+1;
+    char *localVarPath = malloc(sizeOfPath);
+    snprintf(localVarPath, sizeOfPath, "/tfrs");
+
+
+
+    list_addElement(localVarHeaderType,"application/json"); //produces
+    apiClient_invoke(apiClient,
+                    localVarPath,
+                    localVarQueryParameters,
+                    localVarHeaderParameters,
+                    localVarFormParameters,
+                    localVarHeaderType,
+                    localVarContentType,
+                    localVarBodyParameters,
+                    "GET");
+
+    if (apiClient->response_code == 200) {
+        printf("%s\n","OK");
+    }
+    //nonprimitive not container
+    cJSON *SdkAPIlocalVarJSON = cJSON_Parse(apiClient->dataReceived);
+    tfrs_response_t *elementToReturn = tfrs_response_parseFromJSON(SdkAPIlocalVarJSON);
+    cJSON_Delete(SdkAPIlocalVarJSON);
+    if(elementToReturn == NULL) {
+        // return 0;
+    }
+
+    //return type
+    if (apiClient->dataReceived) {
+        free(apiClient->dataReceived);
+    }
+    
+    
+    
+    list_free(localVarHeaderType);
+    
+    free(localVarPath);
+    return elementToReturn;
+end:
+    return NULL;
+
+}
+
 available_files_response_t*
 SdkAPI_queryAvailableFiles(apiClient_t *apiClient ,char * topic)
 {

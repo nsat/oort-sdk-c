@@ -28,6 +28,14 @@ set(SRCS
     src/apiClient.c
     external/cJSON.c
     model/object.c
+    model/adcs_command_request.c
+    model/adcs_command_response.c
+    model/adcs_euler_t.c
+    model/adcs_hk.c
+    model/adcs_quat_t.c
+    model/adcs_response.c
+    model/adcs_target.c
+    model/adcs_xyz_float_t.c
     model/available_files_response.c
     model/error_response.c
     model/file_info.c
@@ -35,6 +43,7 @@ set(SRCS
     model/send_file_request.c
     model/send_file_response.c
     model/send_options.c
+    model/tfrs_response.c
     model/ttl_params.c
     api/SdkAPI.c
 
@@ -46,6 +55,14 @@ set(HDRS
     include/keyValuePair.h
     external/cJSON.h
     model/object.h
+    model/adcs_command_request.h
+    model/adcs_command_response.h
+    model/adcs_euler_t.h
+    model/adcs_hk.h
+    model/adcs_quat_t.h
+    model/adcs_response.h
+    model/adcs_target.h
+    model/adcs_xyz_float_t.h
     model/available_files_response.h
     model/error_response.h
     model/file_info.h
@@ -53,6 +70,7 @@ set(HDRS
     model/send_file_request.h
     model/send_file_response.h
     model/send_options.h
+    model/tfrs_response.h
     model/ttl_params.h
     api/SdkAPI.h
 
