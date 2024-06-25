@@ -43,7 +43,6 @@ set(SRCS
     model/send_file_request.c
     model/send_file_response.c
     model/send_options.c
-    model/tags.c
     model/tfrs_response.c
     model/ttl_params.c
     api/SdkAPI.c
@@ -71,7 +70,6 @@ set(HDRS
     model/send_file_request.h
     model/send_file_response.h
     model/send_options.h
-    model/tags.h
     model/tfrs_response.h
     model/ttl_params.h
     api/SdkAPI.h
