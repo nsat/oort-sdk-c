@@ -11,6 +11,7 @@
 #include "../external/cJSON.h"
 #include "../include/list.h"
 #include "../include/keyValuePair.h"
+#include "delivery_hints.h"
 
 
 
@@ -32,7 +33,7 @@ file_info_t *file_info_create(
     int modified,
     int created,
     char *crc32,
-    list_t* extra
+    list_t* extra,
 );
 
 void file_info_free(file_info_t *file_info);

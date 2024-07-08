@@ -12,7 +12,7 @@ file_info_t *file_info_create(
     int modified,
     int created,
     char *crc32,
-    list_t* extra
+    list_t* extra,
     ) {
     file_info_t *file_info_local_var = malloc(sizeof(file_info_t));
     if (!file_info_local_var) {
@@ -25,6 +25,7 @@ file_info_t *file_info_create(
     file_info_local_var->created = created;
     file_info_local_var->crc32 = crc32;
     file_info_local_var->extra = extra;
+    file_info_local_var->delivery_hints = delivery_hints;
 
     return file_info_local_var;
 }
@@ -128,6 +129,11 @@ cJSON *file_info_convertToJSON(file_info_t *file_info) {
         cJSON_AddItemToObject(extra,"", localMapObject);
     }
     }
+     } 
+
+
+    // file_info->delivery_hints
+    if(file_info->delivery_hints) { 
      } 
 
     return item;
@@ -235,6 +241,10 @@ file_info_t *file_info_parseFromJSON(cJSON *file_infoJSON){
     }
     }
 
+    // file_info->delivery_hints
+    cJSON *delivery_hints = cJSON_GetObjectItemCaseSensitive(file_infoJSON, "delivery_hints");
+    }
+
 
     file_info_local_var = file_info_create (
         strdup(id->valuestring),
@@ -243,7 +253,7 @@ file_info_t *file_info_parseFromJSON(cJSON *file_infoJSON){
         modified->valuedouble,
         created->valuedouble,
         strdup(crc32->valuestring),
-        extra ? extraList : NULL
+        extra ? extraList : NULL,
         );
 
     return file_info_local_var;

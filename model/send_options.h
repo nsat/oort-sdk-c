@@ -11,6 +11,7 @@
 #include "../external/cJSON.h"
 #include "../include/list.h"
 #include "../include/keyValuePair.h"
+#include "delivery_hints.h"
 #include "ttl_params.h"
 
 
@@ -25,7 +26,7 @@ typedef struct send_options_t {
 send_options_t *send_options_create(
     ttl_params_t *ttl_params,
     int reliable,
-    list_t* tags
+    list_t* tags,
 );
 
 void send_options_free(send_options_t *send_options);

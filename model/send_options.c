@@ -8,7 +8,7 @@
 send_options_t *send_options_create(
     ttl_params_t *ttl_params,
     int reliable,
-    list_t* tags
+    list_t* tags,
     ) {
     send_options_t *send_options_local_var = malloc(sizeof(send_options_t));
     if (!send_options_local_var) {
@@ -17,6 +17,7 @@ send_options_t *send_options_create(
     send_options_local_var->ttl_params = ttl_params;
     send_options_local_var->reliable = reliable;
     send_options_local_var->tags = tags;
+    send_options_local_var->delivery_hints = delivery_hints;
 
     return send_options_local_var;
 }
@@ -81,6 +82,11 @@ cJSON *send_options_convertToJSON(send_options_t *send_options) {
     }
      } 
 
+
+    // send_options->delivery_hints
+    if(send_options->delivery_hints) { 
+     } 
+
     return item;
 fail:
     if (item) {
@@ -130,11 +136,15 @@ send_options_t *send_options_parseFromJSON(cJSON *send_optionsJSON){
     }
     }
 
+    // send_options->delivery_hints
+    cJSON *delivery_hints = cJSON_GetObjectItemCaseSensitive(send_optionsJSON, "delivery_hints");
+    }
+
 
     send_options_local_var = send_options_create (
         ttl_params ? ttl_params_local_nonprim : NULL,
         reliable ? reliable->valueint : 0,
-        tags ? tagsList : NULL
+        tags ? tagsList : NULL,
         );
 
     return send_options_local_var;
