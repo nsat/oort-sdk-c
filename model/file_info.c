@@ -8,9 +8,9 @@
 file_info_t *file_info_create(
     char *id,
     char *path,
-    int size,
-    int modified,
-    int created,
+    long size,
+    long modified,
+    long created,
     char *crc32,
     list_t* extra,
     ) {
