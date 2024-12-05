@@ -37,6 +37,7 @@ set(SRCS
     model/adcs_target.c
     model/adcs_xyz_float_t.c
     model/available_files_response.c
+    model/delivery_hints.c
     model/error_response.c
     model/file_info.c
     model/retrieve_file_request.c
@@ -64,6 +65,7 @@ set(HDRS
     model/adcs_target.h
     model/adcs_xyz_float_t.h
     model/available_files_response.h
+    model/delivery_hints.h
     model/error_response.h
     model/file_info.h
     model/retrieve_file_request.h
