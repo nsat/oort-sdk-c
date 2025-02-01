@@ -29,10 +29,22 @@ void send_file_request_free(send_file_request_t *send_file_request) {
         return ;
     }
     listEntry_t *listEntry;
-    free(send_file_request->destination);
-    free(send_file_request->filepath);
-    free(send_file_request->topic);
-    send_options_free(send_file_request->options);
+    if (send_file_request->destination) {
+        free(send_file_request->destination);
+        send_file_request->destination = NULL;
+    }
+    if (send_file_request->filepath) {
+        free(send_file_request->filepath);
+        send_file_request->filepath = NULL;
+    }
+    if (send_file_request->topic) {
+        free(send_file_request->topic);
+        send_file_request->topic = NULL;
+    }
+    if (send_file_request->options) {
+        send_options_free(send_file_request->options);
+        send_file_request->options = NULL;
+    }
     free(send_file_request);
 }
 
@@ -43,7 +55,6 @@ cJSON *send_file_request_convertToJSON(send_file_request_t *send_file_request) {
     if (!send_file_request->destination) {
         goto fail;
     }
-    
     if(cJSON_AddStringToObject(item, "destination", send_file_request->destination) == NULL) {
     goto fail; //String
     }
@@ -53,7 +64,6 @@ cJSON *send_file_request_convertToJSON(send_file_request_t *send_file_request) {
     if (!send_file_request->filepath) {
         goto fail;
     }
-    
     if(cJSON_AddStringToObject(item, "filepath", send_file_request->filepath) == NULL) {
     goto fail; //String
     }
@@ -63,14 +73,13 @@ cJSON *send_file_request_convertToJSON(send_file_request_t *send_file_request) {
     if (!send_file_request->topic) {
         goto fail;
     }
-    
     if(cJSON_AddStringToObject(item, "topic", send_file_request->topic) == NULL) {
     goto fail; //String
     }
 
 
     // send_file_request->options
-    if(send_file_request->options) { 
+    if(send_file_request->options) {
     cJSON *options_local_JSON = send_options_convertToJSON(send_file_request->options);
     if(options_local_JSON == NULL) {
     goto fail; //model
@@ -79,7 +88,7 @@ cJSON *send_file_request_convertToJSON(send_file_request_t *send_file_request) {
     if(item->child == NULL) {
     goto fail;
     }
-     } 
+    }
 
     return item;
 fail:
@@ -92,6 +101,9 @@ fail:
 send_file_request_t *send_file_request_parseFromJSON(cJSON *send_file_requestJSON){
 
     send_file_request_t *send_file_request_local_var = NULL;
+
+    // define the local variable for send_file_request->options
+    send_options_t *options_local_nonprim = NULL;
 
     // send_file_request->destination
     cJSON *destination = cJSON_GetObjectItemCaseSensitive(send_file_requestJSON, "destination");
@@ -131,7 +143,6 @@ send_file_request_t *send_file_request_parseFromJSON(cJSON *send_file_requestJSO
 
     // send_file_request->options
     cJSON *options = cJSON_GetObjectItemCaseSensitive(send_file_requestJSON, "options");
-    send_options_t *options_local_nonprim = NULL;
     if (options) { 
     options_local_nonprim = send_options_parseFromJSON(options); //nonprimitive
     }
@@ -146,6 +157,10 @@ send_file_request_t *send_file_request_parseFromJSON(cJSON *send_file_requestJSO
 
     return send_file_request_local_var;
 end:
+    if (options_local_nonprim) {
+        send_options_free(options_local_nonprim);
+        options_local_nonprim = NULL;
+    }
     return NULL;
 
 }

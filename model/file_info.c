@@ -13,6 +13,7 @@ file_info_t *file_info_create(
     long created,
     char *crc32,
     list_t* extra,
+    delivery_hints_t *delivery_hints
     ) {
     file_info_t *file_info_local_var = malloc(sizeof(file_info_t));
     if (!file_info_local_var) {
@@ -36,15 +37,32 @@ void file_info_free(file_info_t *file_info) {
         return ;
     }
     listEntry_t *listEntry;
-    free(file_info->id);
-    free(file_info->path);
-    free(file_info->crc32);
-    list_ForEach(listEntry, file_info->extra) {
-        keyValuePair_t *localKeyValue = (keyValuePair_t*) listEntry->data;
-        free (localKeyValue->key);
-        free (localKeyValue->value);
+    if (file_info->id) {
+        free(file_info->id);
+        file_info->id = NULL;
     }
-    list_free(file_info->extra);
+    if (file_info->path) {
+        free(file_info->path);
+        file_info->path = NULL;
+    }
+    if (file_info->crc32) {
+        free(file_info->crc32);
+        file_info->crc32 = NULL;
+    }
+    if (file_info->extra) {
+        list_ForEach(listEntry, file_info->extra) {
+            keyValuePair_t *localKeyValue = (keyValuePair_t*) listEntry->data;
+            free (localKeyValue->key);
+            free (localKeyValue->value);
+            keyValuePair_free(localKeyValue);
+        }
+        list_freeList(file_info->extra);
+        file_info->extra = NULL;
+    }
+    if (file_info->delivery_hints) {
+        delivery_hints_free(file_info->delivery_hints);
+        file_info->delivery_hints = NULL;
+    }
     free(file_info);
 }
 
@@ -55,7 +73,6 @@ cJSON *file_info_convertToJSON(file_info_t *file_info) {
     if (!file_info->id) {
         goto fail;
     }
-    
     if(cJSON_AddStringToObject(item, "id", file_info->id) == NULL) {
     goto fail; //String
     }
@@ -65,7 +82,6 @@ cJSON *file_info_convertToJSON(file_info_t *file_info) {
     if (!file_info->path) {
         goto fail;
     }
-    
     if(cJSON_AddStringToObject(item, "path", file_info->path) == NULL) {
     goto fail; //String
     }
@@ -75,7 +91,6 @@ cJSON *file_info_convertToJSON(file_info_t *file_info) {
     if (!file_info->size) {
         goto fail;
     }
-    
     if(cJSON_AddNumberToObject(item, "size", file_info->size) == NULL) {
     goto fail; //Numeric
     }
@@ -85,7 +100,6 @@ cJSON *file_info_convertToJSON(file_info_t *file_info) {
     if (!file_info->modified) {
         goto fail;
     }
-    
     if(cJSON_AddNumberToObject(item, "modified", file_info->modified) == NULL) {
     goto fail; //Numeric
     }
@@ -95,7 +109,6 @@ cJSON *file_info_convertToJSON(file_info_t *file_info) {
     if (!file_info->created) {
         goto fail;
     }
-    
     if(cJSON_AddNumberToObject(item, "created", file_info->created) == NULL) {
     goto fail; //Numeric
     }
@@ -105,19 +118,18 @@ cJSON *file_info_convertToJSON(file_info_t *file_info) {
     if (!file_info->crc32) {
         goto fail;
     }
-    
     if(cJSON_AddStringToObject(item, "crc32", file_info->crc32) == NULL) {
     goto fail; //String
     }
 
 
     // file_info->extra
-    if(file_info->extra) { 
+    if(file_info->extra) {
     cJSON *extra = cJSON_AddObjectToObject(item, "extra");
     if(extra == NULL) {
         goto fail; //primitive map container
     }
-    cJSON *localMapObject = cJSON_CreateObject(); //Memory free to be implemented in user code
+    cJSON *localMapObject = extra;
     listEntry_t *extraListEntry;
     if (file_info->extra) {
     list_ForEach(extraListEntry, file_info->extra) {
@@ -126,15 +138,22 @@ cJSON *file_info_convertToJSON(file_info_t *file_info) {
         {
             goto fail;
         }
-        cJSON_AddItemToObject(extra,"", localMapObject);
     }
     }
-     } 
+    }
 
 
     // file_info->delivery_hints
-    if(file_info->delivery_hints) { 
-     } 
+    if(file_info->delivery_hints) {
+    cJSON *delivery_hints_local_JSON = delivery_hints_convertToJSON(file_info->delivery_hints);
+    if(delivery_hints_local_JSON == NULL) {
+        goto fail; // custom
+    }
+    cJSON_AddItemToObject(item, "delivery_hints", delivery_hints_local_JSON);
+    if(item->child == NULL) {
+        goto fail;
+    }
+    }
 
     return item;
 fail:
@@ -147,6 +166,12 @@ fail:
 file_info_t *file_info_parseFromJSON(cJSON *file_infoJSON){
 
     file_info_t *file_info_local_var = NULL;
+
+    // define the local map for file_info->extra
+    list_t *extraList = NULL;
+
+    // define the local variable for file_info->delivery_hints
+    delivery_hints_t *delivery_hints_local_nonprim = NULL;
 
     // file_info->id
     cJSON *id = cJSON_GetObjectItemCaseSensitive(file_infoJSON, "id");
@@ -222,27 +247,33 @@ file_info_t *file_info_parseFromJSON(cJSON *file_infoJSON){
 
     // file_info->extra
     cJSON *extra = cJSON_GetObjectItemCaseSensitive(file_infoJSON, "extra");
-    list_t *extraList;
     if (extra) { 
-    cJSON *extra_local_map;
-    if(!cJSON_IsObject(extra)) {
+    cJSON *extra_local_map = NULL;
+    if(!cJSON_IsObject(extra) && !cJSON_IsNull(extra))
+    {
         goto end;//primitive map container
     }
-    extraList = list_create();
-    keyValuePair_t *localMapKeyPair;
-    cJSON_ArrayForEach(extra_local_map, extra)
+    if(cJSON_IsObject(extra))
     {
-        if(!cJSON_IsNumber(extra_local_map))
+        extraList = list_createList();
+        keyValuePair_t *localMapKeyPair;
+        cJSON_ArrayForEach(extra_local_map, extra)
         {
-            goto end;
+            cJSON *localMapObject = extra_local_map;
+            if(!cJSON_IsString(localMapObject))
+            {
+                goto end;
+            }
+            localMapKeyPair = keyValuePair_create(strdup(localMapObject->string),strdup(localMapObject->valuestring));
+            list_addElement(extraList , localMapKeyPair);
         }
-        localMapKeyPair = keyValuePair_create(strdup(extra_local_map->string),&extra_local_map->valuedouble );
-        list_addElement(extraList , localMapKeyPair);
     }
     }
 
     // file_info->delivery_hints
     cJSON *delivery_hints = cJSON_GetObjectItemCaseSensitive(file_infoJSON, "delivery_hints");
+    if (delivery_hints) { 
+    delivery_hints_local_nonprim = delivery_hints_parseFromJSON(delivery_hints); //custom
     }
 
 
@@ -254,10 +285,29 @@ file_info_t *file_info_parseFromJSON(cJSON *file_infoJSON){
         created->valuedouble,
         strdup(crc32->valuestring),
         extra ? extraList : NULL,
+        delivery_hints ? delivery_hints_local_nonprim : NULL
         );
 
     return file_info_local_var;
 end:
+    if (extraList) {
+        listEntry_t *listEntry = NULL;
+        list_ForEach(listEntry, extraList) {
+            keyValuePair_t *localKeyValue = (keyValuePair_t*) listEntry->data;
+            free(localKeyValue->key);
+            localKeyValue->key = NULL;
+            free(localKeyValue->value);
+            localKeyValue->value = NULL;
+            keyValuePair_free(localKeyValue);
+            localKeyValue = NULL;
+        }
+        list_freeList(extraList);
+        extraList = NULL;
+    }
+    if (delivery_hints_local_nonprim) {
+        delivery_hints_free(delivery_hints_local_nonprim);
+        delivery_hints_local_nonprim = NULL;
+    }
     return NULL;
 
 }

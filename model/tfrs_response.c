@@ -47,7 +47,6 @@ cJSON *tfrs_response_convertToJSON(tfrs_response_t *tfrs_response) {
     if (!tfrs_response->age) {
         goto fail;
     }
-    
     if(cJSON_AddNumberToObject(item, "age", tfrs_response->age) == NULL) {
     goto fail; //Numeric
     }
@@ -57,7 +56,6 @@ cJSON *tfrs_response_convertToJSON(tfrs_response_t *tfrs_response) {
     if (!tfrs_response->utc_time) {
         goto fail;
     }
-    
     if(cJSON_AddNumberToObject(item, "utc_time", tfrs_response->utc_time) == NULL) {
     goto fail; //Numeric
     }
@@ -67,7 +65,6 @@ cJSON *tfrs_response_convertToJSON(tfrs_response_t *tfrs_response) {
     if (!tfrs_response->ecef_pos_x) {
         goto fail;
     }
-    
     if(cJSON_AddNumberToObject(item, "ecef_pos_x", tfrs_response->ecef_pos_x) == NULL) {
     goto fail; //Numeric
     }
@@ -77,7 +74,6 @@ cJSON *tfrs_response_convertToJSON(tfrs_response_t *tfrs_response) {
     if (!tfrs_response->ecef_pos_y) {
         goto fail;
     }
-    
     if(cJSON_AddNumberToObject(item, "ecef_pos_y", tfrs_response->ecef_pos_y) == NULL) {
     goto fail; //Numeric
     }
@@ -87,7 +83,6 @@ cJSON *tfrs_response_convertToJSON(tfrs_response_t *tfrs_response) {
     if (!tfrs_response->ecef_pos_z) {
         goto fail;
     }
-    
     if(cJSON_AddNumberToObject(item, "ecef_pos_z", tfrs_response->ecef_pos_z) == NULL) {
     goto fail; //Numeric
     }
@@ -97,7 +92,6 @@ cJSON *tfrs_response_convertToJSON(tfrs_response_t *tfrs_response) {
     if (!tfrs_response->ecef_vel_x) {
         goto fail;
     }
-    
     if(cJSON_AddNumberToObject(item, "ecef_vel_x", tfrs_response->ecef_vel_x) == NULL) {
     goto fail; //Numeric
     }
@@ -107,7 +101,6 @@ cJSON *tfrs_response_convertToJSON(tfrs_response_t *tfrs_response) {
     if (!tfrs_response->ecef_vel_y) {
         goto fail;
     }
-    
     if(cJSON_AddNumberToObject(item, "ecef_vel_y", tfrs_response->ecef_vel_y) == NULL) {
     goto fail; //Numeric
     }
@@ -117,7 +110,6 @@ cJSON *tfrs_response_convertToJSON(tfrs_response_t *tfrs_response) {
     if (!tfrs_response->ecef_vel_z) {
         goto fail;
     }
-    
     if(cJSON_AddNumberToObject(item, "ecef_vel_z", tfrs_response->ecef_vel_z) == NULL) {
     goto fail; //Numeric
     }

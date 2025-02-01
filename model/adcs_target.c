@@ -35,7 +35,6 @@ cJSON *adcs_target_convertToJSON(adcs_target_t *adcs_target) {
     if (!adcs_target->lat) {
         goto fail;
     }
-    
     if(cJSON_AddNumberToObject(item, "lat", adcs_target->lat) == NULL) {
     goto fail; //Numeric
     }
@@ -45,7 +44,6 @@ cJSON *adcs_target_convertToJSON(adcs_target_t *adcs_target) {
     if (!adcs_target->lon) {
         goto fail;
     }
-    
     if(cJSON_AddNumberToObject(item, "lon", adcs_target->lon) == NULL) {
     goto fail; //Numeric
     }

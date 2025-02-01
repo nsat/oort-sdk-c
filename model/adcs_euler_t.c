@@ -37,7 +37,6 @@ cJSON *adcs_euler_t_convertToJSON(adcs_euler_t_t *adcs_euler_t) {
     if (!adcs_euler_t->roll) {
         goto fail;
     }
-    
     if(cJSON_AddNumberToObject(item, "roll", adcs_euler_t->roll) == NULL) {
     goto fail; //Numeric
     }
@@ -47,7 +46,6 @@ cJSON *adcs_euler_t_convertToJSON(adcs_euler_t_t *adcs_euler_t) {
     if (!adcs_euler_t->pitch) {
         goto fail;
     }
-    
     if(cJSON_AddNumberToObject(item, "pitch", adcs_euler_t->pitch) == NULL) {
     goto fail; //Numeric
     }
@@ -57,7 +55,6 @@ cJSON *adcs_euler_t_convertToJSON(adcs_euler_t_t *adcs_euler_t) {
     if (!adcs_euler_t->yaw) {
         goto fail;
     }
-    
     if(cJSON_AddNumberToObject(item, "yaw", adcs_euler_t->yaw) == NULL) {
     goto fail; //Numeric
     }

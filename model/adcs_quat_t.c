@@ -39,7 +39,6 @@ cJSON *adcs_quat_t_convertToJSON(adcs_quat_t_t *adcs_quat_t) {
     if (!adcs_quat_t->q1) {
         goto fail;
     }
-    
     if(cJSON_AddNumberToObject(item, "q1", adcs_quat_t->q1) == NULL) {
     goto fail; //Numeric
     }
@@ -49,7 +48,6 @@ cJSON *adcs_quat_t_convertToJSON(adcs_quat_t_t *adcs_quat_t) {
     if (!adcs_quat_t->q2) {
         goto fail;
     }
-    
     if(cJSON_AddNumberToObject(item, "q2", adcs_quat_t->q2) == NULL) {
     goto fail; //Numeric
     }
@@ -59,7 +57,6 @@ cJSON *adcs_quat_t_convertToJSON(adcs_quat_t_t *adcs_quat_t) {
     if (!adcs_quat_t->q3) {
         goto fail;
     }
-    
     if(cJSON_AddNumberToObject(item, "q3", adcs_quat_t->q3) == NULL) {
     goto fail; //Numeric
     }
@@ -69,7 +66,6 @@ cJSON *adcs_quat_t_convertToJSON(adcs_quat_t_t *adcs_quat_t) {
     if (!adcs_quat_t->q4) {
         goto fail;
     }
-    
     if(cJSON_AddNumberToObject(item, "q4", adcs_quat_t->q4) == NULL) {
     goto fail; //Numeric
     }

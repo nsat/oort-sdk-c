@@ -25,7 +25,10 @@ void error_response_free(error_response_t *error_response) {
         return ;
     }
     listEntry_t *listEntry;
-    free(error_response->message);
+    if (error_response->message) {
+        free(error_response->message);
+        error_response->message = NULL;
+    }
     free(error_response);
 }
 
@@ -36,7 +39,6 @@ cJSON *error_response_convertToJSON(error_response_t *error_response) {
     if (!error_response->status) {
         goto fail;
     }
-    
     if(cJSON_AddNumberToObject(item, "status", error_response->status) == NULL) {
     goto fail; //Numeric
     }
@@ -46,7 +48,6 @@ cJSON *error_response_convertToJSON(error_response_t *error_response) {
     if (!error_response->message) {
         goto fail;
     }
-    
     if(cJSON_AddStringToObject(item, "message", error_response->message) == NULL) {
     goto fail; //String
     }

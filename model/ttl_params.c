@@ -34,27 +34,27 @@ cJSON *ttl_params_convertToJSON(ttl_params_t *ttl_params) {
     cJSON *item = cJSON_CreateObject();
 
     // ttl_params->urgent
-    if(ttl_params->urgent) { 
+    if(ttl_params->urgent) {
     if(cJSON_AddNumberToObject(item, "urgent", ttl_params->urgent) == NULL) {
     goto fail; //Numeric
     }
-     } 
+    }
 
 
     // ttl_params->bulk
-    if(ttl_params->bulk) { 
+    if(ttl_params->bulk) {
     if(cJSON_AddNumberToObject(item, "bulk", ttl_params->bulk) == NULL) {
     goto fail; //Numeric
     }
-     } 
+    }
 
 
     // ttl_params->surplus
-    if(ttl_params->surplus) { 
+    if(ttl_params->surplus) {
     if(cJSON_AddNumberToObject(item, "surplus", ttl_params->surplus) == NULL) {
     goto fail; //Numeric
     }
-     } 
+    }
 
     return item;
 fail:
