@@ -25,8 +25,14 @@ void retrieve_file_request_free(retrieve_file_request_t *retrieve_file_request) 
         return ;
     }
     listEntry_t *listEntry;
-    free(retrieve_file_request->id);
-    free(retrieve_file_request->save_path);
+    if (retrieve_file_request->id) {
+        free(retrieve_file_request->id);
+        retrieve_file_request->id = NULL;
+    }
+    if (retrieve_file_request->save_path) {
+        free(retrieve_file_request->save_path);
+        retrieve_file_request->save_path = NULL;
+    }
     free(retrieve_file_request);
 }
 
@@ -37,7 +43,6 @@ cJSON *retrieve_file_request_convertToJSON(retrieve_file_request_t *retrieve_fil
     if (!retrieve_file_request->id) {
         goto fail;
     }
-    
     if(cJSON_AddStringToObject(item, "id", retrieve_file_request->id) == NULL) {
     goto fail; //String
     }
@@ -47,7 +52,6 @@ cJSON *retrieve_file_request_convertToJSON(retrieve_file_request_t *retrieve_fil
     if (!retrieve_file_request->save_path) {
         goto fail;
     }
-    
     if(cJSON_AddStringToObject(item, "save_path", retrieve_file_request->save_path) == NULL) {
     goto fail; //String
     }

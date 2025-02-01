@@ -3,7 +3,7 @@
 #include <ctype.h>
 #include "SdkAPI.h"
 
-
+#define MAX_NUMBER_LENGTH 16
 #define MAX_BUFFER_LENGTH 4096
 #define intToStr(dst, src) \
     do {\
@@ -11,16 +11,17 @@
     snprintf(dst, 256, "%ld", (long int)(src));\
 }while(0)
 
+
 // request adcs operation
 //
 adcs_command_response_t*
-SdkAPI_commandAdcs(apiClient_t *apiClient ,adcs_command_request_t * adcs_command_request)
+SdkAPI_commandAdcs(apiClient_t *apiClient, adcs_command_request_t * adcs_command_request )
 {
     list_t    *localVarQueryParameters = NULL;
     list_t    *localVarHeaderParameters = NULL;
     list_t    *localVarFormParameters = NULL;
-    list_t *localVarHeaderType = list_create();
-    list_t *localVarContentType = list_create();
+    list_t *localVarHeaderType = list_createList();
+    list_t *localVarContentType = list_createList();
     char      *localVarBodyParameters = NULL;
 
     // create the path
@@ -32,7 +33,7 @@ SdkAPI_commandAdcs(apiClient_t *apiClient ,adcs_command_request_t * adcs_command
 
 
     // Body Param
-    cJSON *localVarSingleItemJSON_adcs_command_request;
+    cJSON *localVarSingleItemJSON_adcs_command_request = NULL;
     if (adcs_command_request != NULL)
     {
         //string
@@ -51,12 +52,14 @@ SdkAPI_commandAdcs(apiClient_t *apiClient ,adcs_command_request_t * adcs_command
                     localVarBodyParameters,
                     "POST");
 
-    if (apiClient->response_code == 200) {
-        printf("%s\n","OK");
-    }
-    if (apiClient->response_code == 400) {
-        printf("%s\n","ERROR");
-    }
+    // uncomment below to debug the error response
+    //if (apiClient->response_code == 200) {
+    //    printf("%s\n","OK");
+    //}
+    // uncomment below to debug the error response
+    //if (apiClient->response_code == 400) {
+    //    printf("%s\n","ERROR");
+    //}
     //nonprimitive not container
     cJSON *SdkAPIlocalVarJSON = cJSON_Parse(apiClient->dataReceived);
     adcs_command_response_t *elementToReturn = adcs_command_response_parseFromJSON(SdkAPIlocalVarJSON);
@@ -68,17 +71,23 @@ SdkAPI_commandAdcs(apiClient_t *apiClient ,adcs_command_request_t * adcs_command
     //return type
     if (apiClient->dataReceived) {
         free(apiClient->dataReceived);
+        apiClient->dataReceived = NULL;
+        apiClient->dataReceivedLen = 0;
     }
     
     
     
-    list_free(localVarHeaderType);
-    list_free(localVarContentType);
+    list_freeList(localVarHeaderType);
+    list_freeList(localVarContentType);
     free(localVarPath);
-    cJSON_Delete(localVarSingleItemJSON_adcs_command_request);
+    if (localVarSingleItemJSON_adcs_command_request) {
+        cJSON_Delete(localVarSingleItemJSON_adcs_command_request);
+        localVarSingleItemJSON_adcs_command_request = NULL;
+    }
     free(localVarBodyParameters);
     return elementToReturn;
 end:
+    free(localVarPath);
     return NULL;
 
 }
@@ -91,7 +100,7 @@ SdkAPI_getAdcs(apiClient_t *apiClient)
     list_t    *localVarQueryParameters = NULL;
     list_t    *localVarHeaderParameters = NULL;
     list_t    *localVarFormParameters = NULL;
-    list_t *localVarHeaderType = list_create();
+    list_t *localVarHeaderType = list_createList();
     list_t *localVarContentType = NULL;
     char      *localVarBodyParameters = NULL;
 
@@ -113,9 +122,10 @@ SdkAPI_getAdcs(apiClient_t *apiClient)
                     localVarBodyParameters,
                     "GET");
 
-    if (apiClient->response_code == 200) {
-        printf("%s\n","OK");
-    }
+    // uncomment below to debug the error response
+    //if (apiClient->response_code == 200) {
+    //    printf("%s\n","OK");
+    //}
     //nonprimitive not container
     cJSON *SdkAPIlocalVarJSON = cJSON_Parse(apiClient->dataReceived);
     adcs_response_t *elementToReturn = adcs_response_parseFromJSON(SdkAPIlocalVarJSON);
@@ -127,15 +137,18 @@ SdkAPI_getAdcs(apiClient_t *apiClient)
     //return type
     if (apiClient->dataReceived) {
         free(apiClient->dataReceived);
+        apiClient->dataReceived = NULL;
+        apiClient->dataReceivedLen = 0;
     }
     
     
     
-    list_free(localVarHeaderType);
+    list_freeList(localVarHeaderType);
     
     free(localVarPath);
     return elementToReturn;
 end:
+    free(localVarPath);
     return NULL;
 
 }
@@ -148,7 +161,7 @@ SdkAPI_getTfrs(apiClient_t *apiClient)
     list_t    *localVarQueryParameters = NULL;
     list_t    *localVarHeaderParameters = NULL;
     list_t    *localVarFormParameters = NULL;
-    list_t *localVarHeaderType = list_create();
+    list_t *localVarHeaderType = list_createList();
     list_t *localVarContentType = NULL;
     char      *localVarBodyParameters = NULL;
 
@@ -170,9 +183,10 @@ SdkAPI_getTfrs(apiClient_t *apiClient)
                     localVarBodyParameters,
                     "GET");
 
-    if (apiClient->response_code == 200) {
-        printf("%s\n","OK");
-    }
+    // uncomment below to debug the error response
+    //if (apiClient->response_code == 200) {
+    //    printf("%s\n","OK");
+    //}
     //nonprimitive not container
     cJSON *SdkAPIlocalVarJSON = cJSON_Parse(apiClient->dataReceived);
     tfrs_response_t *elementToReturn = tfrs_response_parseFromJSON(SdkAPIlocalVarJSON);
@@ -184,26 +198,29 @@ SdkAPI_getTfrs(apiClient_t *apiClient)
     //return type
     if (apiClient->dataReceived) {
         free(apiClient->dataReceived);
+        apiClient->dataReceived = NULL;
+        apiClient->dataReceivedLen = 0;
     }
     
     
     
-    list_free(localVarHeaderType);
+    list_freeList(localVarHeaderType);
     
     free(localVarPath);
     return elementToReturn;
 end:
+    free(localVarPath);
     return NULL;
 
 }
 
 available_files_response_t*
-SdkAPI_queryAvailableFiles(apiClient_t *apiClient ,char * topic)
+SdkAPI_queryAvailableFiles(apiClient_t *apiClient, char * topic )
 {
     list_t    *localVarQueryParameters = NULL;
     list_t    *localVarHeaderParameters = NULL;
     list_t    *localVarFormParameters = NULL;
-    list_t *localVarHeaderType = list_create();
+    list_t *localVarHeaderType = list_createList();
     list_t *localVarContentType = NULL;
     char      *localVarBodyParameters = NULL;
 
@@ -235,9 +252,10 @@ SdkAPI_queryAvailableFiles(apiClient_t *apiClient ,char * topic)
                     localVarBodyParameters,
                     "GET");
 
-    if (apiClient->response_code == 200) {
-        printf("%s\n","OK");
-    }
+    // uncomment below to debug the error response
+    //if (apiClient->response_code == 200) {
+    //    printf("%s\n","OK");
+    //}
     //nonprimitive not container
     cJSON *SdkAPIlocalVarJSON = cJSON_Parse(apiClient->dataReceived);
     available_files_response_t *elementToReturn = available_files_response_parseFromJSON(SdkAPIlocalVarJSON);
@@ -249,28 +267,31 @@ SdkAPI_queryAvailableFiles(apiClient_t *apiClient ,char * topic)
     //return type
     if (apiClient->dataReceived) {
         free(apiClient->dataReceived);
+        apiClient->dataReceived = NULL;
+        apiClient->dataReceivedLen = 0;
     }
     
     
     
-    list_free(localVarHeaderType);
+    list_freeList(localVarHeaderType);
     
     free(localVarPath);
     free(localVarToReplace_topic);
     return elementToReturn;
 end:
+    free(localVarPath);
     return NULL;
 
 }
 
 file_info_t*
-SdkAPI_retrieveFile(apiClient_t *apiClient ,retrieve_file_request_t * retrieve_file_request)
+SdkAPI_retrieveFile(apiClient_t *apiClient, retrieve_file_request_t * retrieve_file_request )
 {
     list_t    *localVarQueryParameters = NULL;
     list_t    *localVarHeaderParameters = NULL;
     list_t    *localVarFormParameters = NULL;
-    list_t *localVarHeaderType = list_create();
-    list_t *localVarContentType = list_create();
+    list_t *localVarHeaderType = list_createList();
+    list_t *localVarContentType = list_createList();
     char      *localVarBodyParameters = NULL;
 
     // create the path
@@ -282,7 +303,7 @@ SdkAPI_retrieveFile(apiClient_t *apiClient ,retrieve_file_request_t * retrieve_f
 
 
     // Body Param
-    cJSON *localVarSingleItemJSON_retrieve_file_request;
+    cJSON *localVarSingleItemJSON_retrieve_file_request = NULL;
     if (retrieve_file_request != NULL)
     {
         //string
@@ -301,12 +322,14 @@ SdkAPI_retrieveFile(apiClient_t *apiClient ,retrieve_file_request_t * retrieve_f
                     localVarBodyParameters,
                     "POST");
 
-    if (apiClient->response_code == 200) {
-        printf("%s\n","OK");
-    }
-    if (apiClient->response_code == 400) {
-        printf("%s\n","Bad request");
-    }
+    // uncomment below to debug the error response
+    //if (apiClient->response_code == 200) {
+    //    printf("%s\n","OK");
+    //}
+    // uncomment below to debug the error response
+    //if (apiClient->response_code == 400) {
+    //    printf("%s\n","Bad request");
+    //}
     //nonprimitive not container
     cJSON *SdkAPIlocalVarJSON = cJSON_Parse(apiClient->dataReceived);
     file_info_t *elementToReturn = file_info_parseFromJSON(SdkAPIlocalVarJSON);
@@ -318,29 +341,35 @@ SdkAPI_retrieveFile(apiClient_t *apiClient ,retrieve_file_request_t * retrieve_f
     //return type
     if (apiClient->dataReceived) {
         free(apiClient->dataReceived);
+        apiClient->dataReceived = NULL;
+        apiClient->dataReceivedLen = 0;
     }
     
     
     
-    list_free(localVarHeaderType);
-    list_free(localVarContentType);
+    list_freeList(localVarHeaderType);
+    list_freeList(localVarContentType);
     free(localVarPath);
-    cJSON_Delete(localVarSingleItemJSON_retrieve_file_request);
+    if (localVarSingleItemJSON_retrieve_file_request) {
+        cJSON_Delete(localVarSingleItemJSON_retrieve_file_request);
+        localVarSingleItemJSON_retrieve_file_request = NULL;
+    }
     free(localVarBodyParameters);
     return elementToReturn;
 end:
+    free(localVarPath);
     return NULL;
 
 }
 
 send_file_response_t*
-SdkAPI_sendFile(apiClient_t *apiClient ,send_file_request_t * send_file_request)
+SdkAPI_sendFile(apiClient_t *apiClient, send_file_request_t * send_file_request )
 {
     list_t    *localVarQueryParameters = NULL;
     list_t    *localVarHeaderParameters = NULL;
     list_t    *localVarFormParameters = NULL;
-    list_t *localVarHeaderType = list_create();
-    list_t *localVarContentType = list_create();
+    list_t *localVarHeaderType = list_createList();
+    list_t *localVarContentType = list_createList();
     char      *localVarBodyParameters = NULL;
 
     // create the path
@@ -352,7 +381,7 @@ SdkAPI_sendFile(apiClient_t *apiClient ,send_file_request_t * send_file_request)
 
 
     // Body Param
-    cJSON *localVarSingleItemJSON_send_file_request;
+    cJSON *localVarSingleItemJSON_send_file_request = NULL;
     if (send_file_request != NULL)
     {
         //string
@@ -371,12 +400,14 @@ SdkAPI_sendFile(apiClient_t *apiClient ,send_file_request_t * send_file_request)
                     localVarBodyParameters,
                     "POST");
 
-    if (apiClient->response_code == 200) {
-        printf("%s\n","OK");
-    }
-    if (apiClient->response_code == 400) {
-        printf("%s\n","Bad request");
-    }
+    // uncomment below to debug the error response
+    //if (apiClient->response_code == 200) {
+    //    printf("%s\n","OK");
+    //}
+    // uncomment below to debug the error response
+    //if (apiClient->response_code == 400) {
+    //    printf("%s\n","Bad request");
+    //}
     //nonprimitive not container
     cJSON *SdkAPIlocalVarJSON = cJSON_Parse(apiClient->dataReceived);
     send_file_response_t *elementToReturn = send_file_response_parseFromJSON(SdkAPIlocalVarJSON);
@@ -388,17 +419,23 @@ SdkAPI_sendFile(apiClient_t *apiClient ,send_file_request_t * send_file_request)
     //return type
     if (apiClient->dataReceived) {
         free(apiClient->dataReceived);
+        apiClient->dataReceived = NULL;
+        apiClient->dataReceivedLen = 0;
     }
     
     
     
-    list_free(localVarHeaderType);
-    list_free(localVarContentType);
+    list_freeList(localVarHeaderType);
+    list_freeList(localVarContentType);
     free(localVarPath);
-    cJSON_Delete(localVarSingleItemJSON_send_file_request);
+    if (localVarSingleItemJSON_send_file_request) {
+        cJSON_Delete(localVarSingleItemJSON_send_file_request);
+        localVarSingleItemJSON_send_file_request = NULL;
+    }
     free(localVarBodyParameters);
     return elementToReturn;
 end:
+    free(localVarPath);
     return NULL;
 
 }

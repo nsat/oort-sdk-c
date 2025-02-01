@@ -11,6 +11,10 @@
 #include "../external/cJSON.h"
 #include "../include/list.h"
 #include "../include/keyValuePair.h"
+#include "../include/binary.h"
+
+typedef struct file_info_t file_info_t;
+
 #include "delivery_hints.h"
 
 
@@ -23,6 +27,7 @@ typedef struct file_info_t {
     long created; //numeric
     char *crc32; // string
     list_t* extra; //map
+    delivery_hints_t *delivery_hints; // custom
 
 } file_info_t;
 
@@ -34,6 +39,7 @@ file_info_t *file_info_create(
     long created,
     char *crc32,
     list_t* extra,
+    delivery_hints_t *delivery_hints
 );
 
 void file_info_free(file_info_t *file_info);

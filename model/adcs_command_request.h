@@ -11,6 +11,10 @@
 #include "../external/cJSON.h"
 #include "../include/list.h"
 #include "../include/keyValuePair.h"
+#include "../include/binary.h"
+
+typedef struct adcs_command_request_t adcs_command_request_t;
+
 #include "adcs_quat_t.h"
 #include "adcs_target.h"
 #include "adcs_xyz_float_t.h"

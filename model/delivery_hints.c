@@ -25,8 +25,14 @@ void delivery_hints_free(delivery_hints_t *delivery_hints) {
         return ;
     }
     listEntry_t *listEntry;
-    free(delivery_hints->dest_path);
-    free(delivery_hints->mode);
+    if (delivery_hints->dest_path) {
+        free(delivery_hints->dest_path);
+        delivery_hints->dest_path = NULL;
+    }
+    if (delivery_hints->mode) {
+        free(delivery_hints->mode);
+        delivery_hints->mode = NULL;
+    }
     free(delivery_hints);
 }
 
@@ -37,7 +43,6 @@ cJSON *delivery_hints_convertToJSON(delivery_hints_t *delivery_hints) {
     if (!delivery_hints->dest_path) {
         goto fail;
     }
-    
     if(cJSON_AddStringToObject(item, "dest_path", delivery_hints->dest_path) == NULL) {
     goto fail; //String
     }
@@ -47,7 +52,6 @@ cJSON *delivery_hints_convertToJSON(delivery_hints_t *delivery_hints) {
     if (!delivery_hints->mode) {
         goto fail;
     }
-    
     if(cJSON_AddStringToObject(item, "mode", delivery_hints->mode) == NULL) {
     goto fail; //String
     }

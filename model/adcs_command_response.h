@@ -11,19 +11,26 @@
 #include "../external/cJSON.h"
 #include "../include/list.h"
 #include "../include/keyValuePair.h"
+#include "../include/binary.h"
+
+typedef struct adcs_command_response_t adcs_command_response_t;
+
 #include "adcs_quat_t.h"
 #include "adcs_target.h"
 #include "adcs_xyz_float_t.h"
 
-                typedef enum  {  OK, FAIL } status_e;
+// Enum STATUS for adcs_command_response
 
-        char* status_ToString(status_e status);
+typedef enum  { oort_agent_sdk_interface_adcs_command_response_STATUS_NULL = 0, oort_agent_sdk_interface_adcs_command_response_STATUS_OK, oort_agent_sdk_interface_adcs_command_response_STATUS_FAIL } oort_agent_sdk_interface_adcs_command_response_STATUS_e;
 
-        status_e status_FromString(char* status);
+char* adcs_command_response_status_ToString(oort_agent_sdk_interface_adcs_command_response_STATUS_e status);
+
+oort_agent_sdk_interface_adcs_command_response_STATUS_e adcs_command_response_status_FromString(char* status);
+
 
 
 typedef struct adcs_command_response_t {
-    status_e status; //enum
+    oort_agent_sdk_interface_adcs_command_response_STATUS_e status; //enum
     char *reason; // string
     char *mode; // string
     struct adcs_target_t *target; //model
@@ -33,7 +40,7 @@ typedef struct adcs_command_response_t {
 } adcs_command_response_t;
 
 adcs_command_response_t *adcs_command_response_create(
-    status_e status,
+    oort_agent_sdk_interface_adcs_command_response_STATUS_e status,
     char *reason,
     char *mode,
     adcs_target_t *target,

@@ -4,6 +4,7 @@
 #include "../include/list.h"
 #include "../external/cJSON.h"
 #include "../include/keyValuePair.h"
+#include "../include/binary.h"
 #include "../model/adcs_command_request.h"
 #include "../model/adcs_command_response.h"
 #include "../model/adcs_response.h"
@@ -19,7 +20,7 @@
 // request adcs operation
 //
 adcs_command_response_t*
-SdkAPI_commandAdcs(apiClient_t *apiClient ,adcs_command_request_t * adcs_command_request);
+SdkAPI_commandAdcs(apiClient_t *apiClient, adcs_command_request_t * adcs_command_request );
 
 
 // query adcs status
@@ -35,14 +36,14 @@ SdkAPI_getTfrs(apiClient_t *apiClient);
 
 
 available_files_response_t*
-SdkAPI_queryAvailableFiles(apiClient_t *apiClient ,char * topic);
+SdkAPI_queryAvailableFiles(apiClient_t *apiClient, char * topic );
 
 
 file_info_t*
-SdkAPI_retrieveFile(apiClient_t *apiClient ,retrieve_file_request_t * retrieve_file_request);
+SdkAPI_retrieveFile(apiClient_t *apiClient, retrieve_file_request_t * retrieve_file_request );
 
 
 send_file_response_t*
-SdkAPI_sendFile(apiClient_t *apiClient ,send_file_request_t * send_file_request);
+SdkAPI_sendFile(apiClient_t *apiClient, send_file_request_t * send_file_request );
 
 

@@ -37,7 +37,6 @@ cJSON *adcs_xyz_float_t_convertToJSON(adcs_xyz_float_t_t *adcs_xyz_float_t) {
     if (!adcs_xyz_float_t->x) {
         goto fail;
     }
-    
     if(cJSON_AddNumberToObject(item, "x", adcs_xyz_float_t->x) == NULL) {
     goto fail; //Numeric
     }
@@ -47,7 +46,6 @@ cJSON *adcs_xyz_float_t_convertToJSON(adcs_xyz_float_t_t *adcs_xyz_float_t) {
     if (!adcs_xyz_float_t->y) {
         goto fail;
     }
-    
     if(cJSON_AddNumberToObject(item, "y", adcs_xyz_float_t->y) == NULL) {
     goto fail; //Numeric
     }
@@ -57,7 +55,6 @@ cJSON *adcs_xyz_float_t_convertToJSON(adcs_xyz_float_t_t *adcs_xyz_float_t) {
     if (!adcs_xyz_float_t->z) {
         goto fail;
     }
-    
     if(cJSON_AddNumberToObject(item, "z", adcs_xyz_float_t->z) == NULL) {
     goto fail; //Numeric
     }

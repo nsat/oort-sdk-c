@@ -23,7 +23,10 @@ void send_file_response_free(send_file_response_t *send_file_response) {
         return ;
     }
     listEntry_t *listEntry;
-    free(send_file_response->uuid);
+    if (send_file_response->uuid) {
+        free(send_file_response->uuid);
+        send_file_response->uuid = NULL;
+    }
     free(send_file_response);
 }
 
@@ -34,7 +37,6 @@ cJSON *send_file_response_convertToJSON(send_file_response_t *send_file_response
     if (!send_file_response->uuid) {
         goto fail;
     }
-    
     if(cJSON_AddStringToObject(item, "UUID", send_file_response->uuid) == NULL) {
     goto fail; //String
     }
