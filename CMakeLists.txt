@@ -15,7 +15,7 @@ find_package(OpenSSL)
 if (OPENSSL_FOUND)
     message (STATUS "OPENSSL found")
 
-    set(CMAKE_C_FLAGS "-DOPENSSL")
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DOPENSSL")
     if(CMAKE_VERSION VERSION_LESS 3.4)
         include_directories(${OPENSSL_INCLUDE_DIR})
         include_directories(${OPENSSL_INCLUDE_DIRS})
@@ -113,7 +113,7 @@ set(PROJECT_VERSION_STRING "${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${
 # Add library with project file with project name as library name
 add_library(${pkgName} ${SRCS} ${HDRS})
 # Link dependent libraries
-if(NOT CMAKE_VERSION VERSION_LESS 3.4)
+if(NOT CMAKE_VERSION VERSION_LESS 3.4 AND OPENSSL_FOUND)
     target_link_libraries(${pkgName} PRIVATE OpenSSL::SSL OpenSSL::Crypto)
 endif()
 target_link_libraries(${pkgName} PUBLIC ${CURL_LIBRARIES} )
