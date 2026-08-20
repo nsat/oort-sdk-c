@@ -1,5 +1,8 @@
 .openapi-generator-ignore
 CMakeLists.txt
+CODEOWNERS
+CONTRIBUTING.md
+LICENSE
 Packing.cmake
 README.md
 api/SdkAPI.c
